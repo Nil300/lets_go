@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lets_go/pages.dart';
 import 'package:lets_go/services/auth_service.dart';
+import 'package:lets_go/views/profile_view.dart';
 import 'package:lets_go/widgets/provider_widget.dart';
 
 class Home extends StatefulWidget {
@@ -15,14 +16,14 @@ class _HomeState extends State<Home> {
   final List<Widget> _children = [
     HomePage(),
     WalletPage(),
-    ProfilePage(),
+    ProfileView(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Travel Budget App"),
+        title: Text("Let's Go"),
 //        centerTitle: true,
         actions: <Widget>[
 //          IconButton(
