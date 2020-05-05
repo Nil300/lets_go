@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lets_go/models/useri.dart';
+import 'package:lets_go/widgets/provider_widget.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final Firestore _firestore = Firestore.instance;
 
   Stream<String> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged.map(
         (FirebaseUser user) => user?.uid,
@@ -17,6 +22,27 @@ class AuthService {
   //Get Current User Data
   Future getCurrentUser() async {
     return await _firebaseAuth.currentUser();
+  }
+
+//  // create user object based on FirebaseUser
+//  Useri _userFromFireBaseUser(FirebaseUser user) {
+//    return user != null ? Useri(uid: user.uid) : null;
+//  }
+//
+//  // auth change user stream
+//  Stream<Useri> get user {
+//    return _firebaseAuth.onAuthStateChanged.map(_userFromFireBaseUser);
+//  }
+
+  //Get User Profile Data From Database
+  Stream<QuerySnapshot> getUsersProfileStreamSnapshots(
+      BuildContext context) async* {
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    yield* Firestore.instance
+        .collection('userData')
+        .document(uid)
+        .collection('profileData')
+        .snapshots();
   }
 
   // Email & Password Sign Up

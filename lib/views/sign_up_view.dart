@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lets_go/models/Trip.dart';
 import 'package:lets_go/services/auth_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:lets_go/intro/intro_page.dart';
+import 'package:lets_go/views/profile_deatils.dart';
 import 'package:lets_go/widgets/provider_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
@@ -20,6 +23,8 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
+  final newTrip = new Trip(null, null, null, null, null, null, null, null);
+
   AuthFormType authFormType;
 
   _SignUpViewState({this.authFormType});
@@ -69,8 +74,12 @@ class _SignUpViewState extends State<SignUpView> {
         } else {
           String uid = await auth.createUserWithEmailAndPassword(
               _email, _password, _name);
-          print("Signed up with New ID $uid");
-          Navigator.of(context).pushReplacementNamed('/home');
+//          print("Signed up with New ID $uid");
+//          Navigator.of(context).pushReplacementNamed('/home');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Intro()),
+          );
         }
       } catch (e) {
         print(e);
@@ -87,28 +96,30 @@ class _SignUpViewState extends State<SignUpView> {
     final _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Container(
-        color: primaryColor,
-        height: _height,
-        width: _width,
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: _height * 0.025),
-              showAlert(),
-              SizedBox(height: _height * 0.025),
-              buildHeaderText(),
-              SizedBox(height: _height * 0.05),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: buildInputs() + buildButtons(),
+      body: SingleChildScrollView(
+        child: Container(
+          color: primaryColor,
+          height: _height,
+          width: _width,
+          child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: _height * 0.025),
+                showAlert(),
+                SizedBox(height: _height * 0.025),
+                buildHeaderText(),
+                SizedBox(height: _height * 0.05),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: buildInputs() + buildButtons(),
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -309,6 +320,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   Widget buildSocialIcon(bool visible) {
     final _auth = Provider.of(context).auth;
+
     return Visibility(
       child: Column(
         children: <Widget>[

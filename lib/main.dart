@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lets_go/pages.dart';
 import 'package:lets_go/views/first_view.dart';
 import 'home_widget.dart';
 import 'services/auth_service.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return Provider(
       auth: AuthService(),
       child: MaterialApp(
-        title: "Travel Budget App",
+        title: "Let's Go",
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
